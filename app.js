@@ -24,8 +24,8 @@ app.use(requestLogger);
 app.use(LIMITER); // AntiDOS for all requests
 app.use(helmet());
 
-app.use(errorLogger);
 app.use(router);
+app.use(errorLogger);
 app.use(errors());
 app.use(errorHandler);
 

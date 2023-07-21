@@ -3,6 +3,7 @@ const errorHandler = (err, req, res, next) => {
   res
     .status(statusCode)
     .send({
+      statusCode,
       message: statusCode === 500
         ? 'Внутренняя ошибка сервера'
         : message,
