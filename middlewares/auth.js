@@ -1,13 +1,17 @@
 const jwt = require('jsonwebtoken');
-const { JWT_SECRET } = require('../config/settings');
+const { JWT_SECRET, COOKIE_KEY } = require('../config/settings');
 const { UnauthorizedError } = require('../utils/errors/401-Unauthorized');
 
 const authMiddleware = (req, _, next) => {
   const { authorization } = req.headers;
-  const token = authorization ? authorization.replace('Bearer ', '') : null;
+  let token = authorization ? authorization.replace('Bearer ', '') : null;
 
   if (!token) {
-    return next(new UnauthorizedError('Необходима авторизация'));
+    if (req.cookies && COOKIE_KEY in req.cookies) {
+      token = req.cookies[COOKIE_KEY];
+    } else {
+      return next(new UnauthorizedError('Необходима авторизация'));
+    }
   }
 
   let payload;

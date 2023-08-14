@@ -2,7 +2,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { ValidationError } = require('mongoose').Error;
-const { JWT_SECRET } = require('../config/settings');
+const { JWT_SECRET, COOKIE_KEY } = require('../config/settings');
 const { BadRequestError } = require('../utils/errors/400-BadRequest');
 const { NotFoundError } = require('../utils/errors/404-NotFound');
 const { ConflictRequestError } = require('../utils/errors/409-ConflictRequest');
@@ -68,15 +68,26 @@ const login = (req, res, next) => {
   return User.findUserByCredentials(email, password)
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: '7d' });
-
+      res.cookie(COOKIE_KEY, token, {
+        maxAge: 86400000 * 7,
+        httpOnly: true, // only backend
+        secure: true,
+      });
       return res.send({ email, token });
     })
     .catch(next);
+};
+
+const signOut = (req, res) => {
+  res.clearCookie(COOKIE_KEY);
+
+  return res.send({ message: 'Давай, до свидания!' });
 };
 
 module.exports = {
   createUser,
   getCurrentUser,
   updateUser,
+  signOut,
   login,
 };

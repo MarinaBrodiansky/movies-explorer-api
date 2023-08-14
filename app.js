@@ -12,6 +12,7 @@ const {
 const errorHandler = require('./middlewares/errorHandler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const router = require('./routes');
+const cookieParser = require('cookie-parser');
 
 mongoose.set('strictQuery', false);
 mongoose.connect(MONGO_DB);
@@ -23,6 +24,7 @@ app.use(express.json());
 app.use(requestLogger);
 app.use(LIMITER); // AntiDOS for all requests
 app.use(helmet());
+app.use(cookieParser());
 
 app.use(router);
 app.use(errorLogger);

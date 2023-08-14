@@ -25,11 +25,13 @@ const LIMITER = rateLimit({
 const {
   PORT = 3000,
   JWT_SECRET = 'some-secret-key',
+  COOKIE_KEY = 'jwt',
   MONGO_DB = 'mongodb://127.0.0.1:27017/bitfilmsdb',
 } = process.env;
 
 module.exports = {
   IS_PRODUCTION,
+  COOKIE_KEY,
   PORT,
   JWT_SECRET,
   MONGO_DB,
