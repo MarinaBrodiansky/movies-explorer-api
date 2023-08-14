@@ -4,10 +4,7 @@ const { rateLimit } = require('express-rate-limit');
 const IS_PRODUCTION = Boolean(process.env.NODE_ENV === 'production');
 
 const ORIGINS = [
-  'https://marina.project.nomoreparties.sbs',
-  'http://marina.project.nomoreparties.sbs',
-  'https://marina.project.nomoredomains.work',
-  'http://marina.project.nomoredomains.work',
+  'https://marina.movies.nomoredomains.xyz'
 ];
 
 if (!IS_PRODUCTION) {
